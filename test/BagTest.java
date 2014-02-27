@@ -17,12 +17,12 @@ public class BagTest {
         /**
          * test1 is instantiated as a new ArrayBag with the default capacity.
          */
-        BagInterface bag1 = new ResizableArrayBag();
+        BagInterface bag1 = new LinkedBag();
 
         /**
          * test2 is instantiated as a new ArrayBag with a custom capacity of 10.
          */
-        BagInterface bag2 = new ResizableArrayBag();
+        BagInterface bag2 = new LinkedBag();
 
         /**
          * test3 is instantiated as a new ResizableArrayBag with default

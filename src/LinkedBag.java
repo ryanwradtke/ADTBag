@@ -29,10 +29,10 @@ public class LinkedBag<T> implements BagInterface<T> {
         Node tRef = root;
 
         while ((counter < numberOfNodes) && (tRef != null)) {
-            if (anEntry.equals(tRef.getData())) {
+            if (anEntry.equals(tRef.data)) {
                 counter++;
             }
-            tRef = tRef.next();
+            tRef = tRef.next;
         }
 
         return counter;
@@ -43,11 +43,11 @@ public class LinkedBag<T> implements BagInterface<T> {
         Node tRef = root;
 
         while (!found && (tRef != null)) {
-            if (anEntry.equals(tRef.getData())) {
+            if (anEntry.equals(tRef.data)) {
                 found = true;
             } 
             else {
-                tRef = tRef.next();
+                tRef = tRef.next;
             }
         }
 
@@ -76,7 +76,7 @@ public class LinkedBag<T> implements BagInterface<T> {
         Node newNode = new Node(newEntry);
 
         //Sets .next() to root.
-        newNode.setNext(root);
+        newNode.next = root;
 
         //Sets the root pointer to newNode thereby adding newNode at begining of list.
         root = newNode;
@@ -93,12 +93,12 @@ public class LinkedBag<T> implements BagInterface<T> {
         Node tRef = root;
 
         //Moves root pointer to the next link.
-        root = tRef.next();
+        root = tRef.next;
 
         numberOfNodes--;
 
         //returns tRef.
-        return (T) tRef.getData();
+        return (T) tRef.data;
     }
 
     @Override
@@ -107,7 +107,7 @@ public class LinkedBag<T> implements BagInterface<T> {
         Node tRef = getReferenceTo(aObject);
 
         if (tRef != null) {
-            tRef.setData(root.getData());
+            tRef.data = root.data;
             remove();
             removed = true;
         }
@@ -121,7 +121,7 @@ public class LinkedBag<T> implements BagInterface<T> {
         Node tRef;
 
         while ((tRef = getReferenceTo(aObject)) != null) {
-            tRef.setData(root.getData());
+            tRef.data = root.data;
             remove();
             removed = true;
         }
@@ -143,14 +143,14 @@ public class LinkedBag<T> implements BagInterface<T> {
         Node tRef = root;
 
         for (int i = 0; i < numberOfNodes; i++) {
-            array[i] = (T) tRef.getData();
-            tRef = tRef.next();
+            array[i] = (T) tRef.data;
+            tRef = tRef.next;
         }
 
         return array;
     }
 
-    public class Node<T> {
+    private class Node<T> {
 
         private T data;
         private Node next;
@@ -163,22 +163,5 @@ public class LinkedBag<T> implements BagInterface<T> {
             this.data = data;
             this.next = next;
         }
-
-        public T getData() {
-            return data;
-        }
-
-        public void setData(T t) {
-            this.data = t;
-        }
-
-        public Node next() {
-            return next;
-        }
-
-        public void setNext(Node node) {
-            this.next = node;
-        }
-
     }
 }
