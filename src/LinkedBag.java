@@ -1,20 +1,20 @@
+
 import java.util.Objects;
 
 /**
  * Bag project based on "Data Structures and Abstractions with Java" by Carrano.
  */
-
 /**
  *
  * @author Ryan W Radtke <RyanWRadtke@gmail.com>
  */
 public class LinkedBag<T> implements BagInterface<T> {
 
-    private Node root;
+    private Node firstNode;
     private int numberOfNodes;
 
     public LinkedBag() {
-        root = null;
+        firstNode = null;
         numberOfNodes = 0;
     }
 
@@ -26,8 +26,9 @@ public class LinkedBag<T> implements BagInterface<T> {
     @Override
     public int getFrequencyOf(T anEntry) {
         int counter = 0;
-        Node tRef = root;
+        Node tRef = firstNode;
 
+        //iterates list until list ends, counting number of matching objects.
         while ((counter < numberOfNodes) && (tRef != null)) {
             if (anEntry.equals(tRef.data)) {
                 counter++;
@@ -40,13 +41,13 @@ public class LinkedBag<T> implements BagInterface<T> {
 
     private Node getReferenceTo(T anEntry) {
         boolean found = false;
-        Node tRef = root;
+        Node tRef = firstNode;
 
+        //iterates list untill object is found or list ends.
         while (!found && (tRef != null)) {
             if (anEntry.equals(tRef.data)) {
                 found = true;
-            } 
-            else {
+            } else {
                 tRef = tRef.next;
             }
         }
@@ -56,30 +57,29 @@ public class LinkedBag<T> implements BagInterface<T> {
 
     @Override
     public boolean isFull() {
+        //Never full!
         return false;
     }
 
     @Override
     public boolean isEmpty() {
-        return root == null;
+        return firstNode == null;
     }
 
     @Override
     public boolean contains(T anEntry) {
+        //true if getReferenceTo returns an object.
         return getReferenceTo(anEntry) != null;
 
     }
 
     @Override
     public boolean add(T newEntry) {
-        //Creates a newNode with newEntry as data and null as .next();
-        Node newNode = new Node(newEntry);
-
-        //Sets .next() to root.
-        newNode.next = root;
-
-        //Sets the root pointer to newNode thereby adding newNode at begining of list.
-        root = newNode;
+        /**
+         * Points firstNode to a new Node that has data(newEntry) and
+         * next(firstNode).
+         */
+        firstNode = new Node(newEntry, firstNode);
 
         numberOfNodes++;
 
@@ -90,10 +90,10 @@ public class LinkedBag<T> implements BagInterface<T> {
     @Override
     public T remove() {
         // Instantiate tRef as root.
-        Node tRef = root;
+        Node tRef = firstNode;
 
         //Moves root pointer to the next link.
-        root = tRef.next;
+        firstNode = tRef.next;
 
         numberOfNodes--;
 
@@ -106,8 +106,9 @@ public class LinkedBag<T> implements BagInterface<T> {
         boolean removed = false;
         Node tRef = getReferenceTo(aObject);
 
+        //if getReferenceTo returns an object, remove that object.
         if (tRef != null) {
-            tRef.data = root.data;
+            tRef.data = firstNode.data;
             remove();
             removed = true;
         }
@@ -119,9 +120,10 @@ public class LinkedBag<T> implements BagInterface<T> {
     public boolean removeAllOf(T aObject) {
         boolean removed = false;
         Node tRef;
-
+        
+        //while getReferenceTo returns an object, remove that object.
         while ((tRef = getReferenceTo(aObject)) != null) {
-            tRef.data = root.data;
+            tRef.data = firstNode.data;
             remove();
             removed = true;
         }
@@ -131,7 +133,7 @@ public class LinkedBag<T> implements BagInterface<T> {
 
     @Override
     public void empty() {
-        root = null;
+        firstNode = null;
         numberOfNodes = 0;
     }
 
@@ -140,8 +142,9 @@ public class LinkedBag<T> implements BagInterface<T> {
         @SuppressWarnings("unchecked")
         T[] array = (T[]) new Object[numberOfNodes];
 
-        Node tRef = root;
-
+        Node tRef = firstNode;
+        
+        //Iterates the linked list; fills the array with data from each node.
         for (int i = 0; i < numberOfNodes; i++) {
             array[i] = (T) tRef.data;
             tRef = tRef.next;
@@ -150,6 +153,7 @@ public class LinkedBag<T> implements BagInterface<T> {
         return array;
     }
 
+    //private inner class Node.  LinkedBag is the only class that uses Node.
     private class Node<T> {
 
         private T data;
@@ -159,6 +163,7 @@ public class LinkedBag<T> implements BagInterface<T> {
             this(data, null);
         }
 
+        //Second constructor makes that add() method of LinkedBag simpler.
         private Node(T data, Node next) {
             this.data = data;
             this.next = next;
