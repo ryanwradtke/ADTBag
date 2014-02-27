@@ -170,8 +170,4 @@ public class BagTest {
             }
         }
     }
-
-    public static void removeFromBag(BagInterface<String> aBag, String aString) {
-
-    }
 }
